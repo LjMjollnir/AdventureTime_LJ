@@ -44,7 +44,7 @@ Once you believe you are setup correctly press the Jimothy button to get started
 - Easier selection for what zones to use the E formations for. This is updated even while the script is running, so if you realise you need to skip certain zones because of armoured enemies or ranged units you can now fix that while the script is running
 - ***Disable your Modron Reset*** Modron is quite happy to waste all your good potions and the script will also report an error when jumping back to z1
 - If the game freezes and no enemies are spawning restart the game. There is a small chance of this happening when going back a zone then forward
-- You may need to enable auto progress with G (will work on a fix for this soon)
+- ~~You may need to enable auto progress with G (will work on a fix for this soon)~~ Fixed
 
 ### Azaka
 - This is used to time Omin contracts with Azaka Ult
