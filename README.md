@@ -18,13 +18,14 @@ Basic leveling script.. will level selected seats use ults and make sure the Q f
 ### Jimothy
 Used to get to silly high zones 2001 is max currenty and there is no ban wall anymore
 
-Make sure Briv, Hew and Jim are in the Q formation
-Remove Briv from the E formation
+- Make sure Briv, Hew and Jim are in the Q formation
+- Remove Briv from the E formation
 
-Use the E Formation zones Tab in the script based on your Briv Skips
-Select your Skip number and if it is 100% or not and the script will
-auto select which zones to use the E Formation
-you can then add additional zones to use E
+- Use the E Formation zones Tab in the script based on your Briv Skips
+- Select your Skip number and if it is 100% or not and the script will auto select which zones to use the E Formation
+- you can then add additional zones to use E
+
+Once you believe you are setup correctly press the Jimothy button to get started
 
 ### Basic requirements
 - Jimothy obviously - This guy turns non boss enemies into Chickens
@@ -37,13 +38,11 @@ you can then add additional zones to use E
 - Sentry - Can bring quest requirement down to 17 but unreliable in the high zones
 - Ulkoria - If for some reason you dont have Widdle, with alot of casters there is a chance to reset Jims attack
 
-Can use the Leveler to level and use ultimate attacks
-Stops the Script if Briv goes below a number of Haste Stacks. Safety feature so your formation doesnt continue into a boss
-Easier selection for what zones to use the E formations for. This is updated even while the script is running
-so if you realise you need to skip certain zones because of armoured enemies or ranged units you can now fix that
-while the script is running
+- Can use the Leveler to level and use ultimate attacks
+- Stops the Script if Briv goes below a number of Haste Stacks. Safety feature so your formation doesnt continue into a boss
+- Easier selection for what zones to use the E formations for. This is updated even while the script is running, so if you realise you need to skip certain zones because of armoured enemies or ranged units you can now fix that while the script is running
 
-**Azaka**
-This is used to time Omin contracts with Azaka Ult
-YOU need to find your Omin contracts memory address each time
-dont ask me.. ive never used this feature im sure someone in #scripting can help you
+### Azaka
+- This is used to time Omin contracts with Azaka Ult
+- **YOU** need to find your Omin contracts memory address each time
+- dont ask me.. ive never used this feature im sure someone in #scripting can help you
