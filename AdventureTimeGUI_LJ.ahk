@@ -287,20 +287,7 @@ Briv_Changed:
 	GuiControl, , BrivWarning ,You need at least 100`% 1 Skip Briv for this to work.
 	else
 	{
-		if (skip = 4 and g100PercentBriv)
-		{
-			GuiControl, , BrivWarning ,No selection needed.
-			Loop, 50
-			{
-				CheckboxZoneSkip%A_Index% := 0
-				GuiControl, MyWindow: , CheckboxZoneSkip%A_Index% , 0
-				gZoneSkip[A_Index] := 0
-			}
-			return
-		}
-
 		zone := (4 - skip)
-
 		Loop, 50
 			{
 				CheckboxZoneSkip%A_Index% := 0
@@ -322,7 +309,7 @@ Briv_Changed:
 			}
 		GuiControl, , BrivWarning ,Selection Updated.
 		if (gBrivSkip = 5 or (gBrivSkip = 6 and not g100PercentBriv))
-			GuiControl, , BrivWarning ,Careful! You can land on bosses. `n100`% 6x recommended. GL!
+			GuiControl, , BrivWarning ,Careful! You can land on bosses. 100`% 6 Skip recommended. GL!
 		Gui, Submit, NoHide
 	}
 	return
