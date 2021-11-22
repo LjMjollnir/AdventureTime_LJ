@@ -7,7 +7,7 @@ an Updated version of Mikes AdventureTime for Idle Champions - EGS and Steam
 - Download Mikes script above and extract it to a folder someplace
 - download Adventuretime_Lj.ahk from here and put it in the same folder as Mikes Script
 - Install AHK if you dont already have it https://www.autohotkey.com/ (Current version works fine)
-- Double click on Adventuretime_LJ.AHK
+- Double click on AdventuretimeGUI_LJ.AHK
 
 
 Basically the same AdventureTime.ahk thats been floating around for ages with a new GUI
