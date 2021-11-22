@@ -38,6 +38,7 @@ Once you believe you are setup correctly press the Jimothy button to get started
 - Sentry - Can bring quest requirement down to 17 but unreliable in the high zones
 - Ulkoria - If for some reason you dont have Widdle, with alot of casters there is a chance to reset Jims attack
 
+#### Notes
 - Can use the Leveler to level and use ultimate attacks
 - Stops the Script if Briv goes below a number of Haste Stacks. Safety feature so your formation doesnt continue into a boss
 - Easier selection for what zones to use the E formations for. This is updated even while the script is running, so if you realise you need to skip certain zones because of armoured enemies or ranged units you can now fix that while the script is running
