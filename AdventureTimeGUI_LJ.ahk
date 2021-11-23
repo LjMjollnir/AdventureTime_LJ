@@ -119,17 +119,17 @@ Gui, MyWindow:Add, Checkbox, vgJUKeySpam Checked%gJUKeySpam% x15 y+5 gChanged, U
 Gui, MyWindow:Add, Checkbox, vgBrivStackStop Checked%gBrivStackStop% x15 y+5 gChanged, Stop if Briv runs out of Stacks
 Gui, MyWindow:Add, Text,  x15 y+15, Minimum number of stacks to keep
 Gui, MyWindow:Add, Edit, x+4
-Gui, MyWindow:Add, UpDown, vgMinStacks gStacks_Edit Range50-9999999, % gMinStacks
-Gui, MyWindow:Add, Text, x15 y+30, Jimothy Running:
-Gui, MyWindow:Add, Text, vJimothy_ClickedID x+2 w50, No
-Gui, MyWindow:Add, Text, x15 y+15, Hew Alive: 
-Gui, MyWindow:Add, Text, vHewAliveID x+2 w30, ???
-Gui, MyWindow:Add, Text, x+15, Hew Slot: 
-Gui, MyWindow:add, Text, vHewSlotID x+2 w50, ???
-Gui, MyWindow:Add, Text, x15 y+2, Current Level:
-Gui, MyWindow:Add, Text, vReadCurrentZoneID x+2 w50, ???
+Gui, MyWindow:Add, UpDown, vgMinStacks gStacks_Edit Range50-9999999 w100, % gMinStacks
 Gui, MyWindow:Add, Text, x15 y+2, Briv Stacks:
 Gui, MyWindow:Add, Text, vReadBrivStacksID x+2 w50, ???
+Gui, MyWindow:Add, Text, x15 y+30, Jimothy Running:
+Gui, MyWindow:Add, Text, vJimothy_ClickedID x+2 w50, No
+Gui, MyWindow:Add, Text, x15 y+15, Hew Slot: 
+Gui, MyWindow:add, Text, vHewSlotID x+2 w10, ???
+Gui, MyWindow:Add, Text, x+5, Hew Alive: 
+Gui, MyWindow:Add, Text, vHewAliveID x+2 w30, ???
+Gui, MyWindow:Add, Text, x15 y+2, Current Level:
+Gui, MyWindow:Add, Text, vReadCurrentZoneID x+2 w50, ???
 
 Gui, MyWindow:Add, Text, x15 y+10, Monsters Spawned:
 Gui, MyWindow:Add, Text, x+5 vReadMonstersSpawnedID, ???
@@ -178,7 +178,7 @@ Loop, 10
 Gui, Tab, E Formation Zones
 
 Gui, MyWindow:Add, Text, x15 y38 , Briv skip
-Gui, MyWindow:Add, DDL, vgBrivSkip x+5 y35 w35 gBriv_Changed, 1||2|3|4|5|6|7|8|9
+Gui, MyWindow:Add, DDL, vgBrivSkip x+5 y35 w55 gBriv_Changed, 1||2|3|4|5|6|7|8|9|unlock
 Gui, MyWindow:Add, Checkbox, vg100PercentBriv %g100PercentBriv% x+5 y38 gBriv_Changed, 100`%
 
 Gui, MyWindow:add, Text, vBrivWarning x15 y+15 w400, Select your Briv
@@ -188,9 +188,11 @@ Loop, 50
 {
 	i := gZoneSkip[A_Index]
 	if Mod(A_Index, 5) = 1
-	Gui, MyWindow:Add, Checkbox, vCheckboxZoneSkip%A_Index% Checked%i% x15 y+5 w60 gSkip_Clicked, z%A_Index%
-	Else 
-	Gui, MyWindow:Add, Checkbox, vCheckboxZoneSkip%A_Index% Checked%i% x+5 w60 gSkip_Clicked, z%A_Index%
+		Gui, MyWindow:Add, Checkbox, vCheckboxZoneSkip%A_Index% Checked%i% x15 y+5 w60 gSkip_Clicked, z%A_Index%
+	else if Mod(A_Index, 5) = 4
+		Gui, MyWindow:Add, Checkbox, vCheckboxZoneSkip%A_Index% Disabled Checked%i% x+5 w60 gSkip_Clicked, z%A_Index%
+	else
+		Gui, MyWindow:Add, Checkbox, vCheckboxZoneSkip%A_Index% Checked%i% x+5 w60 gSkip_Clicked, z%A_Index%
 }
 
 Gui, MyWindow:Show
@@ -260,7 +262,26 @@ Briv_Changed:
 		CheckboxZoneSkip%A_Index% := 0
 		GuiControl, MyWindow: , CheckboxZoneSkip%A_Index% , 0
 		gZoneSkip[A_Index] := 0
-			
+		
+		if (gBrivSkip = "unlock")
+		{
+			i = 4
+			loop, 10
+			{
+				GuiControl, Enable, CheckboxZoneSkip%i%
+				i += 5
+			}
+		}
+		else
+		{
+			i = 4
+			loop, 10
+			{
+				GuiControl, Disable, CheckboxZoneSkip%i%
+				i += 5
+			}
+		}
+
 		if ((Mod(A_Index, 5) = zone))
 		{
 			CheckboxZoneSkip%A_Index% := 1
