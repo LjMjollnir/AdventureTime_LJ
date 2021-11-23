@@ -22,9 +22,13 @@ global gFkeySpam = 1
 global gUkeySpam = 1
 global gJFkeySpam = 0
 global gJUkeySpam = 1
+global gGForce = 1
 global gBrivStackStop = 1
 global gRight = 1
-global gJimStopZone = 2001
+global gEFormationZone = 0
+global gJUseEFormation = 0
+global gEFormationZoneUI = 0
+global gMinStacksUI = 0
 global gSpeedTime = 0
 global gAzakaFarm = 0
 global gSpamQ = 1
@@ -79,8 +83,11 @@ IniRead, gFKeySpam, ATSettings.ini, Section1, FKeySpam, 1
 IniRead, gUKeySpam, ATSettings.ini, Section1, UKeySpam, 1
 IniRead, gJFKeySpam, ATSettings.ini, Section1, JFKeySpam, 0
 IniRead, gJUKeySpam, ATSettings.ini, Section1, JUKeySpam, 1
+IniRead, gGForce, ATSettings.ini, Section1, GForce, 1
 IniRead, gMaxLevel, ATSettings.ini, Section1, MaxZone, 2001
 IniRead, gLevelZone, ATSettings.ini, Section1, LevelZone, 100
+IniRead, gJUseEFormation, ATSettings.ini, Section1, JUseEFormation, 0
+IniRead, gEFormationZone, ATSettings.ini, Section1, EFormationZone, 0
 IniRead, gMinStacks, ATSettings.ini, Section1, MinStacks, 50
 IniRead, gRight, ATSettings.ini, Section1, Right, 1
 IniRead, gSpamQ, ATSettings.ini, Section1, SpamQ, 1
@@ -99,15 +106,15 @@ Gui, MyWindow:Add, Button, x415 y+10 w60 gRun_Clicked, `Leveler
 Gui, MyWindow:Add, Button, x415 y+10 w60 gAzaka_Clicked, Azaka
 Gui, MyWindow:Add, Button, x415 y+10 w60 gJimothy_Clicked, Jimothy
 Gui, MyWindow:Add, Button, x415 y+10 w60 gReload_Clicked, `Reload
+Gui, MyWindow:Add, Button, default gCheck_Values, Ok
 Gui, MyWindow:Add, Tab3, x5 y5 w400 vTabs, Help|Leveler/Ults|E Formation Zones|Jimothy|Azaka
 Gui, Tab, Help
 Gui, MyWindow:Add, Text, x15 y30, Not much help here yet
 Gui, MyWindow:Add, Text, x15 y+15, Leveler - levels and Spams ults for you
 Gui, MyWindow:Add, Text, x15 y+15, Azaka - Untested but should be the same as before
-Gui, MyWindow:Add, Text, x15 y+15, Jimothy - Should work similar
-Gui, MyWindow:Add, Text, x15 y+15, Use E Formation without Briv for Jim
-Gui, MyWindow:Add, Text, x15 y+15, so Briv doesnt jump into things
-Gui, MyWindow:Add, Text, x15 y+30, someone else can write Help if they like...
+Gui, MyWindow:Add, Text, x15 y+15, Jimothy - Uses Briv, Jim and Hew to get to z2001
+Gui, MyWindow:Add, Text, x15 y+8, Q Formation must have Hew, Briv and Jim
+Gui, MyWindow:Add, Text, x15 y+8, E Formation must not have Briv
 
 ;Gui, Tab, Settings
 ;Gui, MyWindow:Add, Checkbox, vgFkeySpam Checked%gFkeySpam% x15 y+5, Spam Fkeys
@@ -117,11 +124,19 @@ Gui, Tab, Jimothy
 Gui, MyWindow:Add, Checkbox, vgJFKeySpam Checked%gJFKeySpam% x15 y+5 gChanged, Use Leveler
 Gui, MyWindow:Add, Checkbox, vgJUKeySpam Checked%gJUKeySpam% x15 y+5 gChanged, Use Ultimates
 Gui, MyWindow:Add, Checkbox, vgBrivStackStop Checked%gBrivStackStop% x15 y+5 gChanged, Stop if Briv runs out of Stacks
-Gui, MyWindow:Add, Text,  x15 y+15, Minimum number of stacks to keep
-Gui, MyWindow:Add, Edit, x+4
-Gui, MyWindow:Add, UpDown, vgMinStacks gStacks_Edit Range50-9999999, % gMinStacks
-Gui, MyWindow:Add, Text, x15 y+30, Jimothy Running:
-Gui, MyWindow:Add, Text, vJimothy_ClickedID x+2 w50, No
+Gui, MyWindow:Add, Text,  vStackID x15 y+15, Minimum number of Haste stacks to keep
+Gui, MyWindow:Add, Edit, vgMinStacksUI gStacks_Edit x+4 w34 0x2000 Limit4, % gMinStacks
+GuicontrolGet, temp, Pos, StackID
+GuiControl, Move, gMinStacksUI, % "Y" tempY -30
+
+Gui, MyWindow:Add, Checkbox, vgJUseEFormation Checked%gJUseEFormation% x15 y+10 gChanged
+Gui, MyWindow:Add, Text ,x32 ys+102 vJUEFID,Use E Formation until Zone
+Gui, MyWindow:Add, Edit, vgEFormationZoneUI gFormationZone_Edit x+2 0x2000 w34 Limit4, % gEFormationZone
+GuicontrolGet, temp, Pos, gEFormationZoneUI
+GuiControl, Move, gEFormationZoneUI, % "Y" tempY -29
+
+Gui, MyWindow:Add, Text, x15 y+30, Jimothy Status:
+Gui, MyWindow:Add, Text, vJimothy_ClickedID x+2, Press Jimothy to start
 Gui, MyWindow:Add, Text, x15 y+15, Hew Alive: 
 Gui, MyWindow:Add, Text, vHewAliveID x+2 w30, ???
 Gui, MyWindow:Add, Text, x+15, Hew Slot: 
@@ -134,8 +149,10 @@ Gui, MyWindow:Add, Text, vReadBrivStacksID x+2 w50, ???
 Gui, MyWindow:Add, Text, x15 y+10, Monsters Spawned:
 Gui, MyWindow:Add, Text, x+5 vReadMonstersSpawnedID, ???
 Gui, MyWindow:Add, Text, x+5 , /
-Gui, MyWindow:Add, Edit, vNewMaxMonsters x+2, % gMaxMonsters
+Gui, MyWindow:Add, Edit, vNewMaxMonsters x+2 0x2000, % gMaxMonsters
 Gui, MyWindow:Add, Text, x+5, Max Monsters
+GuicontrolGet, temp, Pos, NewMaxMonsters
+GuiControl, Move, NewMaxMonsters, % "Y" tempY -31
 
 Gui, Tab, Azaka
 Gui, MyWindow:Add, Edit, vNewaddressCO x15 y+10 w150, % addressCO
@@ -148,12 +165,17 @@ Gui, MyWindow:Add, Text, x15 y+2, Address CO:
 Gui, MyWindow:Add, Text, vAddressCOID x+2 w100,
 
 Gui, Tab, Leveler/Ults
-Gui, MyWindow:Add, Text, x15 y35 , Seats to level with Fkeys below Zone
-Gui, MyWindow:Add, Edit, vgLevelZone x+4  gChanged, % gLevelZone
+Gui, MyWindow:Add, Text, x15 y35, Seats to level with Fkeys below Zone
+Gui, MyWindow:Add, Edit, vLZEditID x+2 w50 +0x2000 ;vgLevelZone gChanged Range1-2001, % gLevelZone
+Gui, MyWindow:Add, UpDown, vgLevelZone x+4 gChanged Range1-2001, % gLevelZone
+GuiControl, Move, LZEditID, y+5
+GuiControl, Move, gLevelZone, y+5
+
+
 Loop, 12
 {
 	i := CheckboxSeat%A_Index%
-	if Mod(A_Index, 4) = 1
+	if Mod(A_Index, 6) = 1
 		Gui, MyWindow:Add, Checkbox, vCheckboxSeat%A_Index% Checked%i% x15 y+5 w60 gBuild_Keys, Seat %A_Index%
 	Else 
 		Gui, MyWindow:Add, Checkbox, vCheckboxSeat%A_Index% Checked%i% x+5 w60 gBuild_Keys, Seat %A_Index%
@@ -162,9 +184,10 @@ Loop, 12
 Gui, MyWindow:Add, Checkbox, vgClickLeveling Checked%gClickLeveling% x15 y+20 gChanged, `Click Leveling
 Gui, MyWindow:Add, Checkbox, vgRight Checked%gRight% x15 y+5 gChanged, Spam Right
 Gui, MyWindow:Add, Checkbox, vgSpamQ Checked%gSpamQ% x15 y+5 gChanged, Spam Q
+Gui, MyWindow:Add, Checkbox, vgGForce Checked%gGForce% x15 y+5 gChanged, Force auto progress
 
-Gui, MyWindow:Add, Checkbox, vgUKeySpam Checked%gUKeySpam% x15 y+5 gChanged, Spam Ultimates
-Gui, MyWindow:Add, Text, x15 y+20 w120, Ultimates to Spam:
+Gui, MyWindow:Add, Checkbox, vgUKeySpam Checked%gUKeySpam% x15 y+15 gChanged, Spam Ultimates
+Gui, MyWindow:Add, Text, x15 y+5 w120, Ultimates to Spam:
 Loop, 10
 {
 	i := CheckboxUlt%A_Index%
@@ -180,6 +203,7 @@ Gui, Tab, E Formation Zones
 Gui, MyWindow:Add, Text, x15 y38 , Briv skip
 Gui, MyWindow:Add, DDL, vgBrivSkip x+5 y35 w35 gBriv_Changed, 1||2|3|4|5|6|7|8|9
 Gui, MyWindow:Add, Checkbox, vg100PercentBriv %g100PercentBriv% x+5 y38 gBriv_Changed, 100`%
+Gui, MyWindow:Add, Button, vgLockFour %gLockFour% x+5 y33 gBriv_Lock, Unlock z4``s
 
 Gui, MyWindow:add, Text, vBrivWarning x15 y+15 w400, Select your Briv
 
@@ -195,7 +219,7 @@ Loop, 50
 
 Gui, MyWindow:Show
 
-WinSetTitle, ahk_pid %gScriptPID%, ,Adventure Time with LJ. Running: Nothing.
+WinSetTitle, ahk_pid %gScriptPID%, ,Adventure Time with LJ.
 
 Build_Keys: ; Intentional placement so this function runs after Gui setup 
 {
@@ -230,8 +254,50 @@ Changed:
 Stacks_Edit:
 {
 	Gui, Submit, NoHide
-	if gMinStacks < 50
+	if gMinStacksUI < 50
+	{
+		Gui, Font, cRed
+		GuiControl, Font, StackID
+	}
+	Else
+	{
+		Gui, Font
+		GuiControl, Font, StackID
+		gMinStacks = %gMinStacksUI%
+	}
+	Return
+}
+
+FormationZone_Edit:
+{
+	Gui, Submit, NoHide
+	if (gEFormationZoneUI > gMaxLevel OR gEFormationZoneUI <= 0)
+	{
+		Gui, Font, cRed
+		GuiControl, Font, JUEFID
+		ToolTip, Greater, 0, 20, 2
+	}
+	Else
+	{
+		Gui, Font
+		GuiControl, Font, JUEFID
+		gEFormationZone = %gEFormationZoneUI%
+		ToolTip, Else, 0, 40, 2
+	}
+	ToolTip, %gEFormationZoneUI% . %gEFormationZone% . %gMaxLevel%, 0, 0
+	Return
+}
+
+Check_Values:
+{
+	if gMinStacksUI < 50
 		gMinStacks := 50
+	if gEFormationZoneUI > %gMaxLevel%
+		gEFormationZone = %gMaxLevel%
+	if gEFormationZoneUI < 1
+		gEFormationZone = 1
+	GuiControl, , gMinStacksUI , %gMinStacks%
+	GuiControl, , gEFormationZoneUI , %gEFormationZone%
 	Gui, Submit, NoHide
 	Return
 }
@@ -252,6 +318,7 @@ Briv_Changed:
 {
 	Gui, Submit, NoHide
 
+	Briv_Lock(0)
 	skip := Mod(gBrivSkip, 5)
 
 	zone := (4 - skip)
@@ -295,6 +362,19 @@ Briv_Changed:
 	return
 }
 
+Briv_Lock(bLock := 1)
+{
+	i = 4
+	loop, 10
+	{
+		if (bLock)
+			GuiControl, Enable, CheckboxZoneSkip%i%
+		Else
+			GuiControl, Disable, CheckboxZoneSkip%i%
+		i += 5
+	}
+}
+
 Save_Clicked:
 {
 	Gui, Submit, NoHide
@@ -313,8 +393,11 @@ Save_Clicked:
 	IniWrite, %gUKeySpam%, ATSettings.ini, Section1, UKeySpam
 	IniWrite, %gJFKeySpam%, ATSettings.ini, Section1, JFKeySpam
 	IniWrite, %gJUKeySpam%, ATSettings.ini, Section1, JUKeySpam
+	IniWrite, %gGForce%, ATSettings.ini, Section1, GForce
 	IniWrite, %gMaxLevel%, ATSettings.ini, Section1, MaxZone
 	IniWrite, %gLevelZone%, ATSettings.ini, Section1, LevelZone
+	IniWrite, %gJUseEFormation%, ATSettings.ini, Section1, JUseEFormation
+	IniWrite, %gEFormationZone%, ATSettings.ini, Section1, EFormationZone
 	IniWrite, %gMinStacks%, ATSettings.ini, Section1, MinStacks
 	IniWrite, %gRight%, ATSettings.ini, Section1, Right
 	IniWrite, %gSpamQ%, ATSettings.ini, Section1, SpamQ
@@ -341,7 +424,8 @@ Run_Clicked:
 	WinSetTitle, ahk_pid %gScriptPID%, ,Adventure Time with LJ. Running: Leveler.
 	loop
 	{
-		ToggleAutoProgress(1)
+		if (gGForce)
+			ToggleAutoProgress(1)
 		if (gClickLeveling)
 			DirectedInput("{SC027}")
 		if (gFkeySpam)
@@ -390,14 +474,20 @@ Jimothy_Clicked:
     GuiControl, MyWindow:, Jimothy_ClickedID, Yes
 	OpenProcess()
 	FindHew()
+	if (gJUseEFormation)
+		DirectedInput("e")
 	WinSetTitle, ahk_pid %gScriptPID%, ,Adventure Time with LJ. Running: Jimothy.
 	loop
 	{
 		Jimothy()
+		if (gJUseEFormation and ReadCurrentZone(1) < gEFormationZone)
+			goto EformationSkip
+
 		if (StackCheck())
 			break
         SwapOutBriv()
 
+EFormationSkip:
 		if (gJFkeySpam)
 			LevelUp()
 		if (gJUkeySpam)
@@ -440,8 +530,27 @@ MyWindowGuiClose()
 }
 
 $`::
-Pause
-return
+Pause::
+Do_Pause:
+{
+	WinGetTitle, gLastTitle, ahk_pid %gScriptPID%
+	SetTimer, Restore_Title, -5
+	WinSetTitle, ahk_pid %gScriptPID%, , Adventure Time with LJ. --- Script Paused ---
+	Pause
+}
+
+#If (A_IsPaused)
+	$`::
+	Pause::
+	Pause, off	
+	return
+#If
+
+Restore_Title:
+{
+	WinSetTitle, ahk_pid %gScriptPID%, , %gLastTitle%
+	return
+}
 
 DirectedInput(s) 
 {
