@@ -3,6 +3,8 @@ an Updated version of Mikes AdventureTime for Idle Champions - EGS and Steam
 
 ## THIS SCRIPT REQUIRES Mikes latest memory functions files found at https://github.com/mikebaldi/Idle-Champions
 
+## If Autoprogress keeps toggling you have outdated memory pointers get the new ones above
+
 ## Installation
 - Download Mikes script above and extract it to a folder someplace
 - download AdventuretimeGUI_Lj.ahk from here and put it in the same folder as Mikes Script
@@ -38,13 +40,19 @@ Once you believe you are setup correctly press the Jimothy button to get started
 - Sentry - Can bring quest requirement down to 17 but unreliable in the high zones
 - Ulkoria - If for some reason you dont have Widdle, with alot of casters there is a chance to reset Jims attack
 
+### Suggested Adventures
+- Tomb of Annihilation: Ring of Regeneration 
+- Waterdeep: A Mysterious Summons 
+- Avernus: The Dead Three 
+- IceWind Dale: The Everlasting Rime
+- The Wild Beyond the Witchlight: Witchlight Carnival
+
 #### Notes
 - Can use the Leveler to level and use ultimate attacks
 - Stops the Script if Briv goes below a number of Haste Stacks. Safety feature so your formation doesnt continue into a boss
 - Easier selection for what zones to use the E formations for. This is updated even while the script is running, so if you realise you need to skip certain zones because of armoured enemies or ranged units you can now fix that while the script is running
 - ***Disable your Modron Reset*** Modron is quite happy to waste all your good potions and the script will also report an error when jumping back to z1
 - If the game freezes and no enemies are spawning restart the game. There is a small chance of this happening when going back a zone then forward
-- ~~You may need to enable auto progress with G (will work on a fix for this soon)~~ Fixed
 
 ### Azaka
 - This is used to time Omin contracts with Azaka Ult
