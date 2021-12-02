@@ -106,7 +106,7 @@ Gui, MyWindow:Add, Button, x415 y+10 w60 gRun_Clicked, `Leveler
 Gui, MyWindow:Add, Button, x415 y+10 w60 gAzaka_Clicked, Azaka
 Gui, MyWindow:Add, Button, x415 y+10 w60 gJimothy_Clicked, Jimothy
 Gui, MyWindow:Add, Button, x415 y+10 w60 gReload_Clicked, `Reload
-Gui, MyWindow:Add, Button, default gCheck_Values, Ok
+Gui, MyWindow:Add, Button, hidden default gCheck_Values, Ok
 Gui, MyWindow:Add, Tab3, x5 y5 w400 vTabs, Help|Leveler/Ults|E Formation Zones|Jimothy|Azaka
 Gui, Tab, Help
 Gui, MyWindow:Add, Text, x15 y30, Not much help here yet
@@ -275,16 +275,13 @@ FormationZone_Edit:
 	{
 		Gui, Font, cRed
 		GuiControl, Font, JUEFID
-		ToolTip, Greater, 0, 20, 2
 	}
 	Else
 	{
 		Gui, Font
 		GuiControl, Font, JUEFID
 		gEFormationZone = %gEFormationZoneUI%
-		ToolTip, Else, 0, 40, 2
 	}
-	ToolTip, %gEFormationZoneUI% . %gEFormationZone% . %gMaxLevel%, 0, 0
 	Return
 }
 
