@@ -237,7 +237,10 @@ Build_Keys: ; Intentional placement so this function runs after Gui setup
 	{
 		if (CheckboxUlt%A_Index%)
 		{
-			gUKeys = %gUKeys%{%A_Index%}
+			if (A_Index = 10)
+				gUKeys = %gUKeys%{0}
+			else
+				gUKeys = %gUKeys%{%A_Index%}
 		}
 	}
 	return
