@@ -1,4 +1,4 @@
-# AdventureTime_LJ
+# AdventureTime_LJ Currently out of Action do not use
 an Updated version of Mikes AdventureTime for Idle Champions - EGS and Steam
 
 ## THIS SCRIPT REQUIRES Mikes latest memory functions files found at https://github.com/mikebaldi/Idle-Champions
